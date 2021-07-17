@@ -1,2 +1,2 @@
-# B2B_sales_analysis
-Analysis of a B2B sales dataset
+# AirBNB sales analysis
+Analysis of a AirBNB sales dataset

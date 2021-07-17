@@ -60,7 +60,7 @@ import matplotlib.pyplot as plt
 # - Import the dataset for the file "AB_NYC_2019.csv".
 # =============================================================================
 
-# df = pd.read_csv("/users/kurit/downloads/AB_NYC_2019.csv")
+df = pd.read_csv("/users/kurit/downloads/AB_NYC_2019.csv")
 
 # # =============================================================================
 # # Part 2
@@ -76,11 +76,11 @@ import matplotlib.pyplot as plt
 # #      happens because the listing doesn't have any reviews.
 # # =============================================================================
 
-# df = pd.read_csv("/users/kurit/downloads/AB_NYC_2019.csv")
-# df["last_review"].fillna("01/01/1900",inplace=True)
-# df["reviews_per_month"].fillna(0,inplace=True)
-# df["last_review"] = pd.to_datetime(df["last_review"])
-# df.to_csv('cleaned_data1.csv')
+df = pd.read_csv("/users/kurit/downloads/AB_NYC_2019.csv")
+df["last_review"].fillna("01/01/1900",inplace=True)
+df["reviews_per_month"].fillna(0,inplace=True)
+df["last_review"] = pd.to_datetime(df["last_review"])
+df.to_csv('cleaned_data1.csv')
 
 # =============================================================================
 # Part 3
@@ -101,12 +101,12 @@ import matplotlib.pyplot as plt
 #      of reservations, total revenue.
 # =============================================================================
 
-# profitability = []
-# for i in df.index:
-#     listing = df.loc[i]
-#     profitability.append(listing["price"]*listing["availability_365"]*(1+listing["reviews_per_month"]))
-# df["profitability"] = profitability
-# print(df["profitability"])
+profitability = []
+for i in df.index:
+    listing = df.loc[i]
+    profitability.append(listing["price"]*listing["availability_365"]*(1+listing["reviews_per_month"]))
+df["profitability"] = profitability
+print(df["profitability"])
 
 
 # =============================================================================
@@ -116,7 +116,7 @@ import matplotlib.pyplot as plt
 # =============================================================================
 
 
-# df.to_csv("/users/kurit/downloads/AB_NYC_2019_cleaned.csv")
+df.to_csv("/users/kurit/downloads/AB_NYC_2019_cleaned.csv")
 
 # =============================================================================
 # Exercise 2 - Analysis
@@ -138,21 +138,21 @@ df = pd.read_csv("/users/kurit/downloads/cleaned_data.csv")#/users/kurit/downloa
 
 
 # # Print all the different neighborhood groups
-# print(df.groupby("neighbourhood_group").count().index)  # Print all the neighborhood groups.
+print(df.groupby("neighbourhood_group").count().index)  # Print all the neighborhood groups.
 
 # # Graph of price distribution
-# i = 1
-# plt.suptitle("Price Distribution")
-# for group in df.groupby("neighbourhood_group").count().index:
-#     plt.subplot(3,2,i)
-#     plt.hist(df[df["neighbourhood_group"] == group]["price"], bins=np.linspace(0, 750, 50))
-#     plt.title("Price distrabution in {}".format(group))
-#     plt.xlabel("Price")
-#     plt.ylabel("Number of listings")
-#     i += 1
-# plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-# plt.savefig("price_distribution.pdf")
-# plt.show()  
+i = 1
+plt.suptitle("Price Distribution")
+for group in df.groupby("neighbourhood_group").count().index:
+    plt.subplot(3,2,i)
+    plt.hist(df[df["neighbourhood_group"] == group]["price"], bins=np.linspace(0, 750, 50))
+    plt.title("Price distrabution in {}".format(group))
+    plt.xlabel("Price")
+    plt.ylabel("Number of listings")
+    i += 1
+plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+plt.savefig("price_distribution.pdf")
+plt.show()  
 
 # # Mean and standard deviation for each group.
 # print(df.groupby("neighbourhood_group").mean()["price"])
@@ -171,16 +171,16 @@ df = pd.read_csv("/users/kurit/downloads/cleaned_data.csv")#/users/kurit/downloa
 # =============================================================================
 
 # Profitability Distribution per Room Type
-# i = 1
-# plt.suptitle("Profitability Distribution per Room Type")
-# for room in df.groupby("room_type").mean().index:
-#     plt.subplot(3,1,i)
-#     i += 1
-#     plt.hist(df[df["room_type"] == room]["profitability"], bins=np.linspace(1, 100000, 100))
-#     plt.xlabel("Profitability")
-#     plt.ylabel("Number of listings")
-#     plt.title("Profitability Histogram of {}".format(room))
-# plt.show()
+i = 1
+plt.suptitle("Profitability Distribution per Room Type")
+for room in df.groupby("room_type").mean().index:
+    plt.subplot(3,1,i)
+    i += 1
+    plt.hist(df[df["room_type"] == room]["profitability"], bins=np.linspace(1, 100000, 100))
+    plt.xlabel("Profitability")
+    plt.ylabel("Number of listings")
+    plt.title("Profitability Histogram of {}".format(room))
+plt.show()
 
 # # Most common
 # print(df.groupby("room_type").count()["price"])
@@ -189,11 +189,11 @@ df = pd.read_csv("/users/kurit/downloads/cleaned_data.csv")#/users/kurit/downloa
 # # Shared room         1160
 
 # # Bar chart of average price for all room types
-# plt.bar(df.groupby("room_type").mean().index, df.groupby("room_type").mean()["price"])
-# plt.title('Average price of different types of rooms')
-# plt.ylabel('Price [$]')
-# plt.xlabel('Type of room')
-# plt.show()
+plt.bar(df.groupby("room_type").mean().index, df.groupby("room_type").mean()["price"])
+plt.title('Average price of different types of rooms')
+plt.ylabel('Price [$]')
+plt.xlabel('Type of room')
+plt.show()
 
 # =============================================================================
 # Part 3
@@ -205,13 +205,13 @@ df = pd.read_csv("/users/kurit/downloads/cleaned_data.csv")#/users/kurit/downloa
 #      as the most availability of the New York cities.
 # =============================================================================
 
-# df = df[df["price"] < 500]      # We limit the prices so that we can see the smaller differences between points (we remove the extremes)
-# nyc_img = plt.imread("New_York_City.png", 0)
-# plt.imshow(nyc_img, zorder = 0, extent = [-74.258, -73.7, 40.49,40.92])   # Scales the image to match with coordinates
-# ax = plt.gca()    # gets the axes from the current figure
-# df.plot(kind='scatter', x='longitude', y='latitude', c='price', ax = ax, cmap=plt.get_cmap('jet'), colorbar=True, alpha=0.4, figsize=(10,8))
-# plt.title("Heatmap of listing price in New York")
-# plt.show()
+df = df[df["price"] < 500]      # We limit the prices so that we can see the smaller differences between points (we remove the extremes)
+nyc_img = plt.imread("New_York_City.png", 0)
+plt.imshow(nyc_img, zorder = 0, extent = [-74.258, -73.7, 40.49,40.92])   # Scales the image to match with coordinates
+ax = plt.gca()    # gets the axes from the current figure
+df.plot(kind='scatter', x='longitude', y='latitude', c='price', ax = ax, cmap=plt.get_cmap('jet'), colorbar=True, alpha=0.4, figsize=(10,8))
+plt.title("Heatmap of listing price in New York")
+plt.show()
 
 # =============================================================================
 # Part 4
